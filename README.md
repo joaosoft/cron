@@ -16,7 +16,7 @@ A simple tool that allows you to cron your jobs.
 Mode Year Month Day Hour Minute Second
 > 0 1 1 1 0 0 0
 
-Modes
+#### Modes
 * 0 - starts on midnight
 * 1 - starts from now
 
