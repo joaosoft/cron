@@ -1,7 +1,9 @@
-package search
+package cron
 
 import (
 	"fmt"
+
+	"github.com/joaosoft/dbr"
 
 	"github.com/joaosoft/manager"
 	migration "github.com/joaosoft/migration/services"
@@ -9,12 +11,13 @@ import (
 
 // AppConfig ...
 type AppConfig struct {
-	Search *SearchConfig `json:"search"`
+	Cron *CronConfig `json:"cron"`
 }
 
-// SearchConfig ...
-type SearchConfig struct {
+// CronConfig ...
+type CronConfig struct {
 	Migration *migration.MigrationConfig `json:"migration"`
+	Dbr       *dbr.DbrConfig             `json:"dbr"`
 	Log       struct {
 		Level string `json:"level"`
 	} `json:"log"`

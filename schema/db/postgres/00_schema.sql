@@ -1,25 +1,22 @@
 -- migrate up
 
-CREATE SCHEMA IF NOT EXISTS search;
+CREATE SCHEMA IF NOT EXISTS cron;
 
-CREATE TABLE search.address (
-  id_address    SERIAL PRIMARY KEY,
-  street        TEXT,
-  number        INTEGER,
-  country       TEXT
+CREATE TABLE cron."job" (
+    id_job              SERIAL          NOT NULL,
+	"name"              TEXT            NOT NULL,
+	"key"               TEXT            NOT NULL,
+	running             BOOLEAN         NOT NULL DEFAULT FALSE,
+	"settings"          TEXT            NOT NULL,
+	"position"          INT4            NOT NULL UNIQUE,
+	created_at			TIMESTAMP       NOT NULL DEFAULT NOW(),
+	updated_at			TIMESTAMP       NOT NULL DEFAULT NOW(),
+	"active"            BOOLEAN         NOT NULL DEFAULT TRUE,
+	CONSTRAINT job_pkey PRIMARY KEY (id_job)
 );
 
-
-CREATE TABLE search.person (
-  id_person     SERIAL PRIMARY KEY,
-  first_name    TEXT,
-  last_name     TEXT,
-  age           INTEGER,
-  active        BOOLEAN,
-  fk_address    INTEGER REFERENCES address (id_address)
-);
 
 
 -- migrate down
-DROP TABLE search.address;
-DROP TABLE search.person;
+DROP TABLE cron."job";
+DROP SCHEMA IF EXISTS cron;

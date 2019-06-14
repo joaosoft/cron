@@ -1,7 +1,3 @@
-package search
+package cron
 
-const (
-	constPage   = "page"
-	constSize   = "size"
-	constSearch = "search"
-)
+const ()

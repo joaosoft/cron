@@ -1,52 +1,54 @@
-package search
+package cron
 
 import (
+	"time"
+
 	logger "github.com/joaosoft/logger"
 	"github.com/joaosoft/manager"
 )
 
-// SearchOption ...
-type SearchOption func(search *Search)
+// CronOption ...
+type CronOption func(cron *Cron)
 
 // Reconfigure ...
-func (search *Search) Reconfigure(options ...SearchOption) {
+func (cron *Cron) Reconfigure(options ...CronOption) {
 	for _, option := range options {
-		option(search)
+		option(cron)
 	}
 }
 
 // WithConfiguration ...
-func WithConfiguration(config *SearchConfig) SearchOption {
-	return func(search *Search) {
-		search.config = config
+func WithConfiguration(config *CronConfig) CronOption {
+	return func(cron *Cron) {
+		cron.config = config
 	}
 }
 
 // WithLogger ...
-func WithLogger(logger logger.ILogger) SearchOption {
-	return func(search *Search) {
-		search.logger = logger
-		search.isLogExternal = true
+func WithLogger(logger logger.ILogger) CronOption {
+	return func(cron *Cron) {
+		cron.logger = logger
+		cron.isLogExternal = true
 	}
 }
 
 // WithLogLevel ...
-func WithLogLevel(level logger.Level) SearchOption {
-	return func(search *Search) {
-		search.logger.SetLevel(level)
+func WithLogLevel(level logger.Level) CronOption {
+	return func(cron *Cron) {
+		cron.logger.SetLevel(level)
 	}
 }
 
 // WithManager ...
-func WithManager(mgr *manager.Manager) SearchOption {
-	return func(search *Search) {
-		search.pm = mgr
+func WithManager(mgr *manager.Manager) CronOption {
+	return func(cron *Cron) {
+		cron.pm = mgr
 	}
 }
 
-// WithMaxSize ...
-func WithMaxSize(maxSize int) SearchOption {
-	return func(search *Search) {
-		search.maxSize = maxSize
+// WithLocation ...
+func WithLocation(location *time.Location) CronOption {
+	return func(cron *Cron) {
+		cron.location = location
 	}
 }

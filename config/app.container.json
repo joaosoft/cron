@@ -1,5 +1,5 @@
 {
-  "search": {
+  "cron": {
     "log": {
       "level": "error"
     },
@@ -8,37 +8,26 @@
         "database": "schema/db/postgres"
       },
       "db": {
-        "schema": "search",
+        "schema": "cron",
         "driver": "postgres",
-        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=search"
+        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=cron"
       },
       "log": {
         "level": "info"
       }
-    }
-  },
-  "dbr": {
-    "read_db": {
-      "driver": "postgres",
-      "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=search"
     },
-    "write_db": {
-      "driver": "postgres",
-      "datasource": "postgres://user:password@localhost:7100/postgres?sslmode=disable&search_path=search"
-    },
-    "log": {
-      "level": "error"
-    }
-  },
-  "elastic": {
-    "endpoint": "localhost:9201",
-    "log": {
-      "level": "error"
-    }
-  },
-  "client": {
-    "log": {
-      "level": "error"
+    "dbr": {
+      "read_db": {
+        "driver": "postgres",
+        "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=cron"
+      },
+      "write_db": {
+        "driver": "postgres",
+        "datasource": "postgres://user:password@localhost:7100/postgres?sslmode=disable&search_path=cron"
+      },
+      "log": {
+        "level": "error"
+      }
     }
   }
 }
