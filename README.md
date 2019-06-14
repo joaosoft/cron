@@ -115,10 +115,6 @@ func after() error {
 
 > ##### Result:
 ```
-GOROOT=/usr/local/go #gosetup
-GOPATH=/Users/joaoribeiro/workspace/go/personal:/Users/joaoribeiro/workspace/go/foursource:/Users/joaoribeiro/workspace/go/sonae:/Users/joaoribeiro/workspace/go/others #gosetup
-/usr/local/go/bin/go build -i -o /private/var/folders/d_/ghp5zy210wbcjmwjv2xr55gh0000gn/T/___Run_cron /Users/joaoribeiro/workspace/go/personal/src/cron/examples/main.go #gosetup
-/private/var/folders/d_/ghp5zy210wbcjmwjv2xr55gh0000gn/T/___Run_cron #gosetup
 {"prefixes":{"level":"info","timestamp":"2019-06-14 19:04:29:19"},"tags":{"service":"manager"},"message":"config config_app added","sufixes":{"ip":"192.168.1.67"}}
 {"prefixes":{"level":"info","timestamp":"2019-06-14 19:04:29:19"},"tags":{"service":"manager"},"message":"database db_postgres added","sufixes":{"ip":"192.168.1.67"}}
 {"prefixes":{"level":"info","timestamp":"2019-06-14 19:04:29:19"},"tags":{"service":"manager"},"message":"database db-Read added","sufixes":{"ip":"192.168.1.67"}}
