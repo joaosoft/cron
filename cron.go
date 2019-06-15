@@ -150,13 +150,15 @@ func (cron *Cron) loadJobs() error {
 	return err
 }
 
-func (cron *Cron) scheduleJobs() error {
+func (cron *Cron) scheduleJobs() (err error) {
 	for _, job := range cron.jobs {
 		cron.logger.Infof("scheduling job with name: %s", job.Name)
 		schedule := cron.NewSchedule(job)
 		cron.schedulers[job.Key] = schedule
 
-		cron.pm.AddProcess(job.Key, schedule)
+		if err = cron.pm.AddProcess(job.Key, schedule); err != nil {
+			return err
+		}
 	}
 
 	return nil
