@@ -10,7 +10,6 @@ A simple tool that allows you to cron your jobs.
 ## With support for modes
 * from midnight
 * recurring
-* database configuration
 
 ## Settings
 Mode Year Month Day Hour Minute Second
