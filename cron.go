@@ -111,6 +111,11 @@ func (cron *Cron) AddJob(job *Job) *Cron {
 	defer cron.mux.Unlock()
 
 	cron.jobs[job.Key] = job
+
+	if err := cron.scheduleJob(job); err != nil {
+		cron.logger.Errorf("error scheduling job with name: %s", job.Name)
+	}
+
 	return cron
 }
 
@@ -152,13 +157,21 @@ func (cron *Cron) loadJobs() error {
 
 func (cron *Cron) scheduleJobs() (err error) {
 	for _, job := range cron.jobs {
-		cron.logger.Infof("scheduling job with name: %s", job.Name)
-		schedule := cron.NewSchedule(job)
-		cron.schedulers[job.Key] = schedule
-
-		if err = cron.pm.AddProcess(job.Key, schedule); err != nil {
+		if err = cron.scheduleJob(job); err != nil {
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (cron *Cron) scheduleJob(job *Job) (err error) {
+	cron.logger.Infof("scheduling job with name: %s", job.Name)
+	schedule := cron.NewSchedule(job)
+	cron.schedulers[job.Key] = schedule
+
+	if err = cron.pm.AddProcess(job.Key, schedule); err != nil {
+		return err
 	}
 
 	return nil
