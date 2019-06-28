@@ -42,7 +42,7 @@ func (schedule *Schedule) Start(waitGroup ...*sync.WaitGroup) error {
 
 	go func() {
 		for {
-			schedule.cron.logger.Infof("job %s waiting next scheduled time %s]", schedule.Job.Key, waitTimeForNext.String())
+			schedule.cron.logger.Infof("job %s waiting next scheduled time in %s]", schedule.Job.Key, waitTimeForNext.String())
 
 			select {
 			case <-time.After(waitTimeForNext):
