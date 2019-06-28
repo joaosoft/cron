@@ -1,7 +1,7 @@
 {
   "cron": {
     "log": {
-      "level": "debug"
+      "level": "info"
     },
     "migration": {
       "path": {
@@ -13,7 +13,7 @@
         "datasource": "postgres://user:password@localhost:7000/postgres?sslmode=disable&search_path=cron"
       },
       "log": {
-        "level": "info"
+        "level": "error"
       }
     },
     "dbr": {
@@ -26,13 +26,13 @@
         "datasource": "postgres://user:password@localhost:7100/postgres?sslmode=disable&search_path=cron"
       },
       "log": {
-        "level": "debug"
+        "level": "error"
       }
     }
   },
   "manager": {
     "log": {
-      "level": "debug"
+      "level": "error"
     }
   }
 }
