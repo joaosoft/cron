@@ -105,11 +105,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:d87cb73697950858f9e842eefa0764cea9a1c5f8343126570ff249a33d1abb47"
+  digest = "1:bfa8237d83624721d867313d00aa15207cba5622b107868b834ef7528a2922c8"
   name = "github.com/joaosoft/manager"
   packages = ["."]
   pruneopts = "UT"
-  revision = "0499204a3a7c3ce18b34de31aa9ad3376d0f3fa1"
+  revision = "477abb1e5f6a801cc2c3b7b551d81bbe5082fcb4"
 
 [[projects]]
   branch = "master"
@@ -121,11 +121,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:efe13b156c95ef7fab22325239948c3b0a90a6d6deafabd99e8e0d903fe26fb4"
+  digest = "1:8c48a3227fed9fb6c1066438d20af1d7ebd8c9f2e087ec8126a297acdf4467cf"
   name = "github.com/joaosoft/validator"
   packages = ["."]
   pruneopts = "UT"
-  revision = "28ca7b7293444f14ef522afd5808dc18649a57ed"
+  revision = "ee8a88b831340d626ce56a5877424c34630acfef"
 
 [[projects]]
   branch = "master"
@@ -299,14 +299,14 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:9ebbac90dda5bf921f6243b64d5abd0674ada63cdee056ff671f8658a00034ab"
+  digest = "1:cb823a5f7777276059b25eaadda6a12892f3beb6d0deee01df0d8f8692ffcc82"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert",
   ]
   pruneopts = "UT"
-  revision = "5c40567a22f818bd14a1ea7245dad9f8ef0691aa"
+  revision = "cc06ce4a13d484c0101a9e92913248488a75786d"
 
 [[projects]]
   branch = "master"
@@ -314,15 +314,15 @@
   name = "golang.org/x/net"
   packages = ["idna"]
   pruneopts = "UT"
-  revision = "d28f0bde5980168871434b95cfc858db9f2a7a99"
+  revision = "3b0461eec859c4b73bb64fdc8285971fd33e3938"
 
 [[projects]]
   branch = "master"
-  digest = "1:010311506e3917b54487c35a4277e2709678a40c1587d82492c40b78b6a0a01d"
+  digest = "1:730ba27cd66db3b98ec8f51a6f20d45ec277d490cca36b1f54e31d3fcaf4840e"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "5ed2794edfdc1c54dfb61d619c5944285f35d444"
+  revision = "04f50cda93cbb67f2afa353c52f342100e80e625"
 
 [[projects]]
   digest = "1:8d8faad6b12a3a4c819a3f9618cb6ee1fa1cfc33253abeeea8b55336721e3405"

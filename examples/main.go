@@ -15,7 +15,7 @@ func main() {
 	// add tasks to jobs
 	myCron.
 		AddJobTaskWithFuncs("teste1_key", canExecute, before, middle, after).
-		AddJobTask("teste2_key", cron.NewTaskGeneric(canExecute, before, middle, after)).
+		AddJobTask("teste2_key", cron.NewTaskGeneric(nil, before, nil, after)).
 		AddJobTaskWithFuncs("teste3_key", canExecute, before, middle, after)
 
 	// wait
