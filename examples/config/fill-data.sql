@@ -1,0 +1,3 @@
+INSERT INTO cron.job (id_job, "name", "key", running, settings, "position", created_at, updated_at, active) VALUES(1, 'teste1', 'teste1_key', false, '0 0 0 0 0 18 46 0', 1, '2019-06-13 19:51:28.612', '2019-06-13 19:51:28.612', true);
+INSERT INTO cron.job (id_job, "name", "key", running, settings, "position", created_at, updated_at, active) VALUES(2, 'teste2', 'teste2_key', false, '1 0 0 0 0 0 1 0', 2, '2019-06-13 19:51:28.612', '2019-06-13 19:51:28.612', true);
+INSERT INTO cron.job (id_job, "name", "key", running, settings, "position", created_at, updated_at, active) VALUES(3, 'teste3', 'teste3_key', false, '1 0 0 0 0 0 1 0', 3, '2019-06-13 19:51:28.612', '2019-06-13 19:51:28.612', false);

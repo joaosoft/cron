@@ -22,13 +22,14 @@ type setting string
 type settingsMode int
 
 const (
-	settingMode   setting = "MODE"
-	settingYear   setting = "YEAR"
-	settingMonth  setting = "MONTH"
-	settingDay    setting = "DAY"
-	settingHour   setting = "HOUR"
-	settingMinute setting = "MINUTE"
-	settingSecond setting = "SECOND"
+	settingMode      setting = "MODE"
+	settingYear      setting = "YEAR"
+	settingMonth     setting = "MONTH"
+	settingDayOfWeek setting = "DAY_OF_WEEK"
+	settingDay       setting = "DAY"
+	settingHour      setting = "HOUR"
+	settingMinute    setting = "MINUTE"
+	settingSecond    setting = "SECOND"
 
 	settingsModeMidnight  settingsMode = 0
 	settingsModeRecurring settingsMode = 1
@@ -39,10 +40,11 @@ var (
 		0: settingMode,
 		1: settingYear,
 		2: settingMonth,
-		3: settingDay,
-		4: settingHour,
-		5: settingMinute,
-		6: settingSecond,
+		3: settingDayOfWeek,
+		4: settingDay,
+		5: settingHour,
+		6: settingMinute,
+		7: settingSecond,
 	}
 )
 
@@ -96,6 +98,21 @@ func (timer *timer) Next() time.Duration {
 			Add(time.Minute * time.Duration(timer.settings[settingMinute])).
 			Add(time.Second * time.Duration(timer.settings[settingSecond]))
 
+		switch timer.settings[settingDayOfWeek] {
+		case 1, 2, 3, 4, 5, 6, 7:
+			weekDay := int(timer.start.Weekday())
+			daysToAdd := 0
+			if weekDay != timer.settings[settingDayOfWeek] {
+				weekDay += 1
+				daysToAdd += 1
+			}
+
+			if daysToAdd > 0 {
+				missingTimeFromStartTime = missingTimeFromStartTime.AddDate(0, 0, daysToAdd)
+			}
+		default:
+		}
+
 		if missingTimeFromStartTime.Before(now) {
 			missingTimeFromStartTime = missingTimeFromStartTime.AddDate(0, 0, 1)
 		}
@@ -107,12 +124,28 @@ func (timer *timer) Next() time.Duration {
 	case settingsModeRecurring:
 		timer.start = now
 
-		return timer.start.
+		missingTimeFromStartTime := timer.start.
 			AddDate(timer.settings[settingYear], timer.settings[settingMonth], timer.settings[settingDay]).
 			Add(time.Hour * time.Duration(timer.settings[settingHour])).
 			Add(time.Minute * time.Duration(timer.settings[settingMinute])).
-			Add(time.Second * time.Duration(timer.settings[settingSecond])).
-			Sub(timer.start)
+			Add(time.Second * time.Duration(timer.settings[settingSecond]))
+
+		switch timer.settings[settingDayOfWeek] {
+		case 1, 2, 3, 4, 5, 6, 7:
+			weekDay := int(timer.start.Weekday())
+			daysToAdd := 0
+			if weekDay != timer.settings[settingDayOfWeek] {
+				weekDay += 1
+				daysToAdd += 1
+			}
+
+			if daysToAdd > 0 {
+				missingTimeFromStartTime = missingTimeFromStartTime.AddDate(0, 0, daysToAdd)
+			}
+		default:
+		}
+
+		return time.Duration(math.Abs(float64(missingTimeFromStartTime.Sub(timer.start))))
 	}
 
 	return 0

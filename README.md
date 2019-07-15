@@ -12,7 +12,7 @@ A simple tool that allows you to cron your jobs.
 * recurring
 
 ## Settings
-Mode Year Month Day Hour Minute Second
+Mode Year Month Day_of_week Day Hour Minute Second
 > 0 1 1 1 0 0 0
 
 #### Modes
