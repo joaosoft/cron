@@ -7,14 +7,13 @@ type ExecuteFunc func() error
 
 type ITask interface {
 	CanExecute() (bool, error)
-	Before() error
-	Middle() error
-	After() error
+	Execute(breakOnError bool) error
 }
 
 func (tasks ListTasks) Execute() (err error) {
+	var canExecute bool
 	for _, task := range tasks {
-		canExecute, err := task.CanExecute()
+		canExecute, err = task.CanExecute()
 		if err != nil {
 			return err
 		}
@@ -23,15 +22,7 @@ func (tasks ListTasks) Execute() (err error) {
 			return nil
 		}
 
-		if err = task.Before(); err != nil {
-			return err
-		}
-
-		if err = task.Middle(); err != nil {
-			return err
-		}
-
-		if err = task.After(); err != nil {
+		if err = task.Execute(false); err != nil {
 			return err
 		}
 	}
