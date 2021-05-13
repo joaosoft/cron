@@ -14,9 +14,9 @@ func main() {
 
 	// add tasks to jobs
 	myCron.
-		AddJobTaskWithFuncs("teste1_key", canExecute, before, middle, after).
-		AddJobTask("teste2_key", cron.NewTaskGeneric(nil, before, nil, after)).
-		AddJobTaskWithFuncs("teste3_key", canExecute, before, middle, after)
+		AddJobTaskWithFuncs("teste1_key", canExecute, a, b, c).
+		AddJobTask("teste2_key", cron.NewTaskGeneric(nil, b, nil, c)).
+		AddJobTaskWithFuncs("teste3_key", canExecute, a, b, c)
 
 	// wait
 	myCron.Wait()
@@ -27,17 +27,17 @@ func canExecute() (bool, error) {
 	return true, nil
 }
 
-func before() error {
-	logger.Info("executing before method")
+func a() error {
+	logger.Info("executing a method")
 	return nil
 }
 
-func middle() error {
-	logger.Info("executing middle method")
+func b() error {
+	logger.Info("executing b method")
 	return nil
 }
 
-func after() error {
-	logger.Info("executing after method")
+func c() error {
+	logger.Info("executing c method")
 	return nil
 }

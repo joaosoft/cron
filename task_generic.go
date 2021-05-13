@@ -20,7 +20,14 @@ func (task *TaskGeneric) CanExecute() (bool, error) {
 }
 
 func (task *TaskGeneric) Execute(breakOnError bool) (err error) {
+	if task == nil {
+		return ErrorInvalidTask
+	}
+
 	for _, f := range task.funcs {
+		if f == nil {
+			return ErrorInvalidFunction
+		}
 		if err = f(); err != nil && breakOnError {
 			return err
 		}

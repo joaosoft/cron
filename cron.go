@@ -119,12 +119,12 @@ func (cron *Cron) AddJob(job *Job) *Cron {
 	return cron
 }
 
-func (cron *Cron) AddJobTask(key string, task ITask) *Cron {
+func (cron *Cron) AddJobTask(key string, t ITask, ts ...ITask) *Cron {
 	cron.mux.Lock()
 	defer cron.mux.Unlock()
 
 	if job, ok := cron.jobs[key]; ok {
-		job.Tasks = append(job.Tasks, task)
+		job.Tasks = append(append(job.Tasks, t), ts...)
 	}
 	return cron
 }

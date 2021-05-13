@@ -13,6 +13,9 @@ type ITask interface {
 func (tasks ListTasks) Execute() (err error) {
 	var canExecute bool
 	for _, task := range tasks {
+		if task == nil {
+			return ErrorInvalidTask
+		}
 		canExecute, err = task.CanExecute()
 		if err != nil {
 			return err
