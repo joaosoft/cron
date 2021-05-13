@@ -129,12 +129,12 @@ func (cron *Cron) AddJobTask(key string, task ITask) *Cron {
 	return cron
 }
 
-func (cron *Cron) AddJobTaskWithFuncs(key string, canExecuteFunc CheckExecuteFunc, beforeFunc ExecuteFunc, middleFunc ExecuteFunc, afterFunc ExecuteFunc) *Cron {
+func (cron *Cron) AddJobTaskWithFuncs(key string, canExecuteFunc CheckExecuteFunc, f ExecuteFunc, fs ...ExecuteFunc) *Cron {
 	cron.mux.Lock()
 	defer cron.mux.Unlock()
 
 	if job, ok := cron.jobs[key]; ok {
-		job.Tasks = append(job.Tasks, NewTaskGeneric(canExecuteFunc, beforeFunc, middleFunc, afterFunc))
+		job.Tasks = append(job.Tasks, NewTaskGeneric(canExecuteFunc, f, fs...))
 	}
 	return cron
 }

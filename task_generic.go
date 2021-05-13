@@ -5,10 +5,10 @@ type TaskGeneric struct {
 	funcs     []ExecuteFunc
 }
 
-func NewTaskGeneric(canExecuteFunc CheckExecuteFunc, f1 ExecuteFunc, fn ...ExecuteFunc) *TaskGeneric {
+func NewTaskGeneric(canExecuteFunc CheckExecuteFunc, f ExecuteFunc, fs ...ExecuteFunc) *TaskGeneric {
 	return &TaskGeneric{
 		canExecuteFunc: canExecuteFunc,
-		funcs:     append([]ExecuteFunc{f1}, fn...),
+		funcs:     append([]ExecuteFunc{f}, fs...),
 	}
 }
 
@@ -21,7 +21,7 @@ func (task *TaskGeneric) CanExecute() (bool, error) {
 
 func (task *TaskGeneric) Execute(breakOnError bool) (err error) {
 	for _, f := range task.funcs {
-		if err = f(); breakOnError && err != nil {
+		if err = f(); err != nil && breakOnError {
 			return err
 		}
 	}
