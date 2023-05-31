@@ -1,30 +1,46 @@
 package validator
 
 import (
-	"reflect"
-
 	"github.com/joaosoft/logger"
+	"reflect"
 )
 
 func (v *Validator) init() {
 	v.handlersBefore = v.newDefaultBeforeHandlers()
 	v.handlersMiddle = v.newDefaultMiddleHandlers()
 	v.handlersAfter = v.newDefaultPosHandlers()
-
 	v.activeHandlers = v.newActiveHandlers()
+	v.initPwd()
 }
 
 type Validator struct {
 	tag              string
-	activeHandlers   map[string]bool
+	activeHandlers   map[string]empty
 	handlersBefore   map[string]beforeTagHandler
 	handlersMiddle   map[string]middleTagHandler
 	handlersAfter    map[string]afterTagHandler
+	pwd              *pwd
 	errorCodeHandler errorCodeHandler
 	callbacks        map[string]callbackHandler
 	sanitize         []string
 	logger           logger.ILogger
-	validateAll      bool
+	canValidateAll   bool
+}
+
+type pwd struct {
+	settings *PwdSettings
+}
+
+type PwdSettings struct {
+	MinNumeric     int
+	MinLetter      int
+	MinUpper       int
+	MinLower       int
+	MinSpace       int
+	MinSymbol      int
+	MinPunctuation int
+	MinLength      int
+	BlackList      map[string]empty
 }
 
 type argument struct {
@@ -47,6 +63,8 @@ type callbackHandler func(context *ValidatorContext, validationData *ValidationD
 type beforeTagHandler func(context *ValidatorContext, validationData *ValidationData) []error
 type middleTagHandler func(context *ValidatorContext, validationData *ValidationData) []error
 type afterTagHandler func(context *ValidatorContext, validationData *ValidationData) []error
+
+type empty struct{}
 
 type ValidatorContext struct {
 	validator *Validator

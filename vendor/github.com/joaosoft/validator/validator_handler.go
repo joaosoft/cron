@@ -62,16 +62,20 @@ func (vc *ValidatorContext) handleValidation(value interface{}) []error {
 }
 
 func (vc *ValidatorContext) _getValue(value reflect.Value) (reflect.Type, reflect.Value, error) {
-	types := reflect.TypeOf(value.Interface())
+	if !value.IsValid() {
+		return nil, value, ErrorInvalidValue
+	}
+
+	typ := value.Type()
 
 again:
 	if (value.Kind() == reflect.Ptr || value.Kind() == reflect.Interface) && !value.IsNil() {
 		value = value.Elem()
-		types = value.Type()
+		typ = value.Type()
 		goto again
 	}
 
-	return types, value, nil
+	return typ, value, nil
 }
 
 func (vc *ValidatorContext) load(value reflect.Value, errs *[]error) (err error) {
@@ -128,7 +132,7 @@ func (vc *ValidatorContext) load(value reflect.Value, errs *[]error) (err error)
 							}
 						}
 
-						if len(*errs) > 0 && !vc.validator.validateAll {
+						if len(*errs) > 0 && !vc.validator.canValidateAll {
 							return nil
 						}
 
@@ -219,7 +223,7 @@ func (vc *ValidatorContext) do(value reflect.Value, errs *[]error) (err error) {
 				return err
 			}
 
-			if len(*errs) > 0 && !vc.validator.validateAll {
+			if len(*errs) > 0 && !vc.validator.canValidateAll {
 				return nil
 			}
 
@@ -227,7 +231,7 @@ func (vc *ValidatorContext) do(value reflect.Value, errs *[]error) (err error) {
 				return err
 			}
 
-			if len(*errs) > 0 && !vc.validator.validateAll {
+			if len(*errs) > 0 && !vc.validator.canValidateAll {
 				return nil
 			}
 		}
@@ -244,7 +248,7 @@ func (vc *ValidatorContext) do(value reflect.Value, errs *[]error) (err error) {
 				return err
 			}
 
-			if len(*errs) > 0 && !vc.validator.validateAll {
+			if len(*errs) > 0 && !vc.validator.canValidateAll {
 				return nil
 			}
 		}
@@ -261,7 +265,7 @@ func (vc *ValidatorContext) do(value reflect.Value, errs *[]error) (err error) {
 				return err
 			}
 
-			if len(*errs) > 0 && !vc.validator.validateAll {
+			if len(*errs) > 0 && !vc.validator.canValidateAll {
 				return nil
 			}
 
@@ -269,7 +273,7 @@ func (vc *ValidatorContext) do(value reflect.Value, errs *[]error) (err error) {
 				return err
 			}
 
-			if len(*errs) > 0 && !vc.validator.validateAll {
+			if len(*errs) > 0 && !vc.validator.canValidateAll {
 				return nil
 			}
 		}
@@ -334,12 +338,12 @@ func (vc *ValidatorContext) execute(typ reflect.StructField, value reflect.Value
 			tag = split[1]
 		}
 
-		if onlyHandleNextErrorTag && !vc.validator.validateAll && tag != constTagError {
+		if onlyHandleNextErrorTag && !vc.validator.canValidateAll && tag != constTagError {
 			continue
 		}
 
 		if _, ok := vc.validator.activeHandlers[tag]; !ok {
-			return fmt.Errorf("invalid tag [%s]", tag)
+			return ErrorInvalidTag.Format(tag)
 		}
 
 		var expected interface{}
@@ -456,7 +460,7 @@ func (vc *ValidatorContext) execute(typ reflect.StructField, value reflect.Value
 
 		default:
 			if prefix != "" {
-				return fmt.Errorf("invalid tag prefix [%s] on tag [%s]", prefix, tag)
+				return ErrorInvalidTagPrefix.Format(prefix, tag)
 			}
 
 			validationData := ValidationData{
@@ -473,7 +477,7 @@ func (vc *ValidatorContext) execute(typ reflect.StructField, value reflect.Value
 			err = vc.executeHandlers(tag, &validationData, &itErrs)
 		}
 
-		if onlyHandleNextErrorTag && !vc.validator.validateAll && tag == constTagError {
+		if onlyHandleNextErrorTag && !vc.validator.canValidateAll && tag == constTagError {
 			if err == ErrorSkipValidation {
 				skipValidation = true
 				continue
@@ -492,12 +496,12 @@ func (vc *ValidatorContext) execute(typ reflect.StructField, value reflect.Value
 		}
 
 		if len(*errs) > 0 {
-			if !onlyHandleNextErrorTag && !vc.validator.validateAll && tag != constTagError {
+			if !onlyHandleNextErrorTag && !vc.validator.canValidateAll && tag != constTagError {
 				onlyHandleNextErrorTag = true
 				continue
 			}
 
-			if !vc.validator.validateAll {
+			if !vc.validator.canValidateAll {
 				return nil
 			}
 		}

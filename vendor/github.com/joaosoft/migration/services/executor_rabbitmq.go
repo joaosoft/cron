@@ -58,7 +58,7 @@ func (e *ExecutorRabbitMq) Execute(arg interface{}, args ...interface{}) error {
 	}
 
 	if response.Status >= web.StatusBadRequest {
-		return errors.New(errors.ErrorLevel, 0, "error importing configurations to rabbitmq [status: %d, error: %s]", response.Status, string(response.Body))
+		return errors.New(errors.LevelError, 0, "error importing configurations to rabbitmq [status: %d, error: %s]", response.Status, string(response.Body))
 	}
 
 	return nil

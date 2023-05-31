@@ -2,7 +2,6 @@ package validator
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 	"strings"
 )
@@ -10,6 +9,8 @@ import (
 func (v *Validator) validate_error(context *ValidatorContext, validationData *ValidationData) []error {
 	rtnErrs := make([]error, 0)
 	added := make(map[string]bool)
+	var errorList []error
+
 	for i, e := range *validationData.Errors {
 		if _, ok := validationData.ErrorsReplaced[e]; ok {
 			continue
@@ -42,13 +43,14 @@ func (v *Validator) validate_error(context *ValidatorContext, validationData *Va
 			newErr := errors.New(strValue)
 			(*validationData.Errors)[i] = newErr
 			validationData.ErrorsReplaced[newErr] = true
+			errorList = append(errorList, newErr)
 		} else {
 			replacer := strings.NewReplacer(constTagReplaceStart, "", constTagReplaceEnd, "")
 			expected := replacer.Replace(validationData.Expected.(string))
 
 			split := strings.SplitN(expected, ":", 2)
 			if len(split) == 0 {
-				rtnErrs = append(rtnErrs, fmt.Errorf("invalid tag error defined [%s]", expected))
+				rtnErrs = append(rtnErrs, ErrorInvalidTagArgument.Format(expected))
 				continue
 			}
 
@@ -70,18 +72,15 @@ func (v *Validator) validate_error(context *ValidatorContext, validationData *Va
 				if newErr != nil {
 					(*validationData.Errors)[i] = newErr
 					validationData.ErrorsReplaced[newErr] = true
+					errorList = append(errorList, newErr)
 				}
 
 				added[split[0]] = true
-			} else {
-				if len(*validationData.Errors)-1 == i {
-					*validationData.Errors = (*validationData.Errors)[:i]
-				} else {
-					*validationData.Errors = append((*validationData.Errors)[:i], (*validationData.Errors)[i+1:]...)
-				}
 			}
 		}
 	}
+
+	*validationData.Errors = errorList
 
 	return rtnErrs
 }
