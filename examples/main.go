@@ -1,8 +1,8 @@
 package main
 
 import (
-	"cron"
-	"logger"
+	"github.com/joaosoft/cron"
+	"github.com/joaosoft/logger"
 )
 
 func main() {
