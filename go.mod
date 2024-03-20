@@ -3,7 +3,7 @@ module github.com/joaosoft/cron
 go 1.20
 
 require (
-	github.com/joaosoft/dbr v0.0.0-20230531144058-c4baa903d6ef
+	github.com/joaosoft/dbr v0.0.0-20230602101607-1caed7a4a01e
 	github.com/joaosoft/errors v0.0.0-20230531141818-ebb38600b462
 	github.com/joaosoft/logger v0.0.0-20230531142923-753c0a3e836a
 	github.com/joaosoft/manager v0.0.0-20230531145924-a549066d2284
